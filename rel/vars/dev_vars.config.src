@@ -1,2 +1,3 @@
+%% -*-Erlang-*-
 {node, "@NODE@"}.
 {dws_listen_port, @WEBPORT@}.

@@ -1,0 +1,12 @@
+{application, dws_example,
+ [
+  {description, "Distributed WebSockets Example"},
+  {vsn, "semver"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  lager,
+                  dws
+                 ]}
+ ]}.

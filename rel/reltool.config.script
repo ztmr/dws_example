@@ -3,12 +3,13 @@
 %% This is to autodetect the .app file if it exists
 %% and to use at least the .app.src if the application
 %% is not compiled (rebar clean)
-BinAppFile = "../apps/dws/ebin/dws.app",
-SrcAppFile = "../apps/dws/src/dws.app.src",
+BinAppFile = "../ebin/dws_example.app",
+SrcAppFile = "../src/dws_example.app.src",
 VsnPluginDirs = [
   "../deps/rebar_vsn_plugin/ebin", %% for dev node releases
   "../deps/rebar_vsn_plugin/src"   %% for all the other releases
 ],
+
 code:add_paths (VsnPluginDirs),
 %io:format ("===> VSN: ~ts~n", [rebar_vsn_plugin:make_vsn ()]),
 
@@ -29,7 +30,7 @@ Vsn = (catch (rebar_vsn_plugin:make_vsn ())),
 Deps = [crypto, asn1, lager, cowboy, mnesia, msgpack, AppAtom],
 
 Sys = [
-    {lib_dirs, ["../apps", "../deps"]},
+    {lib_dirs, ["../deps"]},
     {erts, [{mod_cond, derived}, {app_file, strip}]},
     {app_file, strip},
     {rel, AppStr, Vsn, [kernel, stdlib, sasl | Deps]},
@@ -42,14 +43,14 @@ Sys = [
     {excl_sys_filters, ["^bin/.*", "^erts.*/bin/(dialyzer|typer)",
                         "^erts.*/(doc|info|include|lib|man|src)"]},
     {excl_app_filters, ["\.gitignore"]},
-    {app, AppAtom, [{mod_cond, app}, {incl_cond, include}]}
+    {app, AppAtom, [{mod_cond, app}, {incl_cond, include}, {lib_dir, ".."}]}
   ],
 Overlays = [
     {mkdir, "log/sasl"},
     {copy, "files/erl", "\{\{erts_vsn\}\}/bin/erl"},
     {copy, "files/nodetool", "\{\{erts_vsn\}\}/bin/nodetool"},
-    {copy, "files/dws", "bin/dws"},
-    {copy, "files/dws.cmd", "bin/dws.cmd"},
+    {copy, "files/" ++ AppStr, "bin/" ++ AppStr},
+    {copy, "files/" ++ AppStr ++ ".cmd", "bin/" ++ AppStr ++ ".cmd"},
     {copy, "files/start_erl.cmd", "bin/start_erl.cmd"},
     {copy, "files/install_upgrade.escript", "bin/install_upgrade.escript"},
     {template, "files/sys.config", "releases/\{\{rel_vsn\}\}/sys.config"},

@@ -1,6 +1,6 @@
 @setlocal
 
-@set node_name=dws
+@set node_name=dws_example
 
 @rem Get the absolute path to the parent directory,
 @rem which is assumed to be the node root.

@@ -14,7 +14,7 @@ release-nodeps: compile-nodeps
 	@rebar generate -f
 
 quickdev: release-nodeps
-	@./rel/dws/bin/dws console
+	@./rel/dws_example/bin/dws_example console
 
 all: release
 
@@ -37,7 +37,7 @@ $(eval devrel : $(foreach n,$(SEQ),dev$(n)))
 rundevrel: devrel
 	@cp $(SCREENRCTPL) $(SCREENRC)
 	@awk 'BEGIN { for (i = 0; i < '$(DEVNODES)'; i++) \
-		printf("screen -t DWS%d %d ./dev/dev%d/bin/dws console\n", i+1, i, i+1); }' \
+		printf("screen -t DWSEXAMPLE%d %d ./dev/dev%d/bin/dws_example console\n", i+1, i, i+1); }' \
 		>> $(SCREENRC)
 	@echo "select 0" >> $(SCREENRC)
 	@screen -c $(SCREENRC)
